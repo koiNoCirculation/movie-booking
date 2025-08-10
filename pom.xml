@@ -134,6 +134,8 @@
 				<executions>
 					<execution>
 						<id>Generate MyBatis Artifacts</id>
+						<!-- avoid this when packaging-->
+						<phase>deploy</phase>
 						<goals>
 							<goal>generate</goal>
 						</goals>
