@@ -8,7 +8,6 @@ import dev.youtiao.movie_booking.dao.entities.MovieBookingSystemPlay;
 import dev.youtiao.movie_booking.dao.entities.TheatreInfo;
 import dev.youtiao.movie_booking.dto.OrderDTO;
 import dev.youtiao.movie_booking.service.OrderService;
-import jakarta.annotation.Resource;
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -77,5 +76,11 @@ public class OrderServiceTest {
         Assertions.assertEquals("2025-08-01 15:00:00", orderDTO.getPlayEnd() );
         Assertions.assertEquals("abc", orderDTO.getTheatreAddr());
         Assertions.assertEquals("any theatre", orderDTO.getTheatreName());
+    }
+
+    @Test
+    public void testPlaceOrderWhenSeatNotAvail() {
+        when(seatsMapper.countByExample(any())).thenReturn(1L);
+        Assertions.assertThrows(IllegalStateException.class, () -> orderService.placeAnOrder(1,50));
     }
 }
