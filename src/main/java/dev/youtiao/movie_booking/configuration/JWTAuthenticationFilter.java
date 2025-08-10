@@ -1,12 +1,10 @@
 package dev.youtiao.movie_booking.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.youtiao.movie_booking.dao.MovieBookingSystemUsersMapper;
 import dev.youtiao.movie_booking.dto.MovieSystemUser;
 import dev.youtiao.movie_booking.dto.MovieSystemUserDTO;
 import dev.youtiao.movie_booking.dto.Response;
 import dev.youtiao.movie_booking.sec.JWTUtils;
-import jakarta.annotation.Resource;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,7 +14,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
@@ -29,14 +26,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     JWTUtils jwtUtils;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtils jwtUtils) {
         super(authenticationManager);
         this.jwtUtils = jwtUtils;
     }
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException {
         MovieSystemUser principal = (MovieSystemUser) authResult.getPrincipal();
         DateTime plus1d = new DateTime().plusDays(1);
         try {
@@ -56,17 +53,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             builder.setSucceed(true);
             builder.setData(movieSystemUserDTO);
             response.getWriter().write(objectMapper.writeValueAsString(builder.build()));
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        } catch (InvalidKeySpecException e) {
-            throw new RuntimeException(e);
-        } catch (ParseException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException | ParseException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
         String resp = String.format("{\"succeed\":false, \"message\":\"%s\"}", failed.getClass().getName() + ":" + failed.getMessage());
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");

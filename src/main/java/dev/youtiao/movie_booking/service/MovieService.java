@@ -1,5 +1,6 @@
 package dev.youtiao.movie_booking.service;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import dev.youtiao.movie_booking.dao.MovieBookingSeatsMapper;
 import dev.youtiao.movie_booking.dao.MovieBookingSystemMoviesMapper;
@@ -13,7 +14,6 @@ import dev.youtiao.movie_booking.dao.entities.MovieBookingSystemMoviesExample;
 import dev.youtiao.movie_booking.dao.entities.MovieBookingSystemPlay;
 import dev.youtiao.movie_booking.dao.entities.MovieBookingSystemPlayExample;
 import dev.youtiao.movie_booking.dao.entities.RatingMovie;
-import dev.youtiao.movie_booking.dao.entities.RatingMovieExample;
 import dev.youtiao.movie_booking.dao.entities.TheatreInfo;
 import dev.youtiao.movie_booking.dto.MovieDTO;
 import dev.youtiao.movie_booking.dto.MoviePlayDTO;
@@ -47,29 +47,30 @@ public class MovieService {
     @Resource
     private MovieBookingSeatsMapper seatsMapper;
 
-    private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Transactional
     public Response getMovies(int page, int pageSize) {
-        PageHelper.startPage(page, pageSize);
-        List<MovieBookingSystemMovies> movieBookingSystemMovies = mapper.selectByExampleWithBLOBs(new MovieBookingSystemMoviesExample());
-        movieBookingSystemMovies.stream().map(e -> {
-            MovieDTO movieDTO = new MovieDTO();
-            movieDTO.setMovieId(e.getMovieId());
-            movieDTO.setDirector(e.getDirector());
-            movieDTO.setIntroduction(e.getIntroduction());
-            movieDTO.setLength(e.getLength());
-            movieDTO.setCoverImageURL(e.getCoverImgUrl());
-            movieDTO.setMovieId(e.getMovieId());
-            movieDTO.setIntroduction(e.getIntroduction());
-            movieDTO.setGenre(e.getGenre());
-            movieDTO.setCast(e.getCast());
-            return movieDTO;
-        });
-        Response.ResponseBuilder builder = new Response.ResponseBuilder();
-        builder.setSucceed(true);
-        builder.setData(movieBookingSystemMovies);
-        return builder.build();
+        try(Page<Object> p = PageHelper.startPage(page, pageSize)) {
+            List<MovieBookingSystemMovies> movieBookingSystemMovies = mapper.selectByExampleWithBLOBs(new MovieBookingSystemMoviesExample());
+            List<MovieDTO> movieDTOS = movieBookingSystemMovies.stream().map(e -> {
+                MovieDTO movieDTO = new MovieDTO();
+                movieDTO.setMovieId(e.getMovieId());
+                movieDTO.setDirector(e.getDirector());
+                movieDTO.setIntroduction(e.getIntroduction());
+                movieDTO.setLength(e.getLength());
+                movieDTO.setCoverImageURL(e.getCoverImgUrl());
+                movieDTO.setMovieId(e.getMovieId());
+                movieDTO.setIntroduction(e.getIntroduction());
+                movieDTO.setGenre(e.getGenre());
+                movieDTO.setCast(e.getCast());
+                return movieDTO;
+            }).collect(Collectors.toList());
+            Response.ResponseBuilder builder = new Response.ResponseBuilder();
+            builder.setSucceed(true);
+            builder.setData(movieDTOS);
+            return builder.build();
+        }
     }
 
     public RatingDTO getRatings(int movieId) {

@@ -11,12 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.joda.time.DateTime;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.nio.charset.StandardCharsets;
 import java.security.KeyFactory;
@@ -28,7 +24,6 @@ import java.security.spec.KeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
@@ -39,7 +34,7 @@ public class JWTUtils {
     private final Algorithm algorithm;
 
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public JWTUtils(String pri, String pub) throws NoSuchAlgorithmException, InvalidKeySpecException {
         KeyFactory rsa = KeyFactory.getInstance("RSA");
@@ -82,17 +77,11 @@ public class JWTUtils {
         return new UsernamePasswordAuthenticationToken(userId, null, privilegeList);
     }
     public String issue(Integer userId, String username, String privileges, Date exipres) throws NoSuchAlgorithmException, InvalidKeySpecException, ParseException {
-        try {
-            String token = JWT.create()
-                    .withClaim("userId", userId)
-                    .withIssuer(username)
-                    .withExpiresAt(exipres)
-                    .withClaim("privileges", privileges)
-                    .sign(algorithm);
-            return token;
-        } catch (JWTCreationException exception) {
-            // Invalid Signing configuration / Couldn't convert Claims.
-            throw exception;
-        }
+        return JWT.create()
+                .withClaim("userId", userId)
+                .withIssuer(username)
+                .withExpiresAt(exipres)
+                .withClaim("privileges", privileges)
+                .sign(algorithm);
     }
 }

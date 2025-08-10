@@ -4,13 +4,11 @@ import dev.youtiao.movie_booking.dto.OrderDTO;
 import dev.youtiao.movie_booking.dto.Response;
 import dev.youtiao.movie_booking.service.OrderService;
 import jakarta.annotation.Resource;
-import org.mockito.internal.matchers.Or;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class OrderController {
 
-    private Logger logger = LoggerFactory.getLogger(OrderController.class);
+    private final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
     @Resource
     private OrderService orderService;

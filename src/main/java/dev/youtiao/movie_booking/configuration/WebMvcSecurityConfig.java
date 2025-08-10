@@ -2,23 +2,15 @@ package dev.youtiao.movie_booking.configuration;
 
 import dev.youtiao.movie_booking.sec.JWTUtils;
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -62,7 +54,7 @@ public class WebMvcSecurityConfig {
 
 
         return httpSecurity.
-                csrf(csrf -> csrf.disable()).
+                csrf(AbstractHttpConfigurer::disable).
                 authorizeHttpRequests(
                         (httpRequest) ->
                                 httpRequest.requestMatchers("/api/chooseSeat",
@@ -81,7 +73,7 @@ public class WebMvcSecurityConfig {
                                                 "/api/manage/updateMoviePlay").hasRole("ADMIN")
                                         .requestMatchers("/home","/","/assets/**","/login", "/api/movieList", "/api/getSeats", "/api/movieRating","/api/getMoviePlays","/api/register").permitAll()
                                         .anyRequest().anonymous()
-        ).logout(logout -> logout.permitAll())
+        ).logout(LogoutConfigurer::permitAll)
                 .addFilter(new JWTAuthorizationFilter(authenticationManager,jwtUtils))
                 .addFilter(new JWTAuthenticationFilter(authenticationManager, jwtUtils))
                 .build();

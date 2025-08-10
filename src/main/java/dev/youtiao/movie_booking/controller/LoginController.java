@@ -5,8 +5,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class LoginController {
@@ -19,11 +17,7 @@ public class LoginController {
     public Response status() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Response.ResponseBuilder resp = new Response.ResponseBuilder();
-        if(authentication != null) {
-            resp.setSucceed(true);
-        } else {
-            resp.setSucceed(false);
-        }
+        resp.setSucceed(authentication != null);
         return resp.build();
     }
 

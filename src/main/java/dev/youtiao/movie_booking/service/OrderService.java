@@ -40,7 +40,7 @@ public class OrderService {
     private MovieBookingSystemPlayMapper playMapper;
 
 
-    private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Transactional
     public OrderDTO placeAnOrder(int playId, int seatNo) {
@@ -59,7 +59,8 @@ public class OrderService {
             order.setPayStatus(ORDER_STATUS_NOT_PAID);
             Integer userId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             order.setUserId(userId);
-            orderMapper.insertSelective(order);
+            int orderId = orderMapper.insertSelective(order);
+            order.setOrderId(orderId);
             MovieBookingSystemPlay play = playMapper.selectByPrimaryKey(playId);
             playMapper.incrementSeatOccupied(playId);
             return createDTO(order, seat, play);
@@ -85,6 +86,7 @@ public class OrderService {
         orderDTO.setPlayEnd(format.format(play.getEndAt()));
         orderDTO.setHallNo(play.getHallNo());
         orderDTO.setPayStatus(order.getPayStatus());
+        orderDTO.setOrderId(order.getOrderId());
         return orderDTO;
     }
 }
