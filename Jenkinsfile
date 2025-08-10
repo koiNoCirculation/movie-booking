@@ -8,7 +8,17 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn package -DskipTests'
+                sh 'mvn -B clean package -DskipTests'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'mvn -B clean test'
+            }
+            post {
+                 always {
+                     junit 'target/surefire-reports/*.xml'
+                 }
             }
         }
     }
