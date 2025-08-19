@@ -50,10 +50,10 @@ node {
              string(credentialsId:'https-privkey', variable: 'HTTPSPRIV'),
              ]) {
             if(ENV == 'prod') {
-                sh "sed -i ‘s#{CERT}#${HTTPSCERT}#’ k8s/template/movie-booking-secrets-tls.yaml"
-                sh "sed -i ’s#{KEY}#${HTTPSPRIV}#’ k8s/template/movie-booking-secrets-tls.yaml"
+                sh "sed -i 's#{CERT}#${HTTPSCERT}#' k8s/template/movie-booking-secrets-tls.yaml"
+                sh "sed -i 's#{KEY}#${HTTPSPRIV}#' k8s/template/movie-booking-secrets-tls.yaml"
                 sh 'cat k8s/template/movie-booking-secrets-tls.yaml'
-                sh "sed -i ‘s/{ENV}/${ENV}/’ k8s/template/movie-booking-ingress-tls.yaml"
+                sh "sed -i 's/{ENV}/${ENV}/' k8s/template/movie-booking-ingress-tls.yaml"
             } else {
                 sh "sed -i s/{ENV}/${ENV}/ k8s/template/movie-booking-ingress.yaml"
             }
