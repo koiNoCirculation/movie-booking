@@ -8,10 +8,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - https-moviebooking{ENV}.youtiao.{DOMAIN}
+    - moviebooking{ENV}.youtiao.{DOMAIN}
     secretName: moviebooking-tls
   rules:
-    - host: https-moviebooking{ENV}.youtiao.{DOMAIN}
+    - host: moviebooking{ENV}.youtiao.{DOMAIN}
       http:
         paths:
           - path: /
