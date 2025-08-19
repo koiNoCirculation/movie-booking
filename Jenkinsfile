@@ -54,14 +54,15 @@ node {
                 sh "sed -i 's#{KEY}#${HTTPSPRIV}#' k8s/template/movie-booking-secrets-tls.yaml"
                 sh 'cat k8s/template/movie-booking-secrets-tls.yaml'
                 sh "sed -i 's/{ENV}/${ENV}/' k8s/template/movie-booking-ingress-tls.yaml"
+                sh "sed -i s/{DOMAIN}/${DOMAIN}/ k8s/template/movie-booking-ingress-tls.yaml"
             } else {
                 sh "sed -i s/{ENV}/${ENV}/ k8s/template/movie-booking-ingress.yaml"
+                sh "sed -i s/{DOMAIN}/${DOMAIN}/ k8s/template/movie-booking-ingress.yaml"
             }
             sh "sed -i s/{TAG}/${ENV}-${env.BUILD_TAG}/ k8s/template/movie-booking-deployment.yaml"
 
             sh 'sed -i "s#{DOCKERCONFIG}#${DOCKERPULLSECRET}#" k8s/template/movie-booking-secrets.yaml'
             sh "sed -i s/{NAME}/movie-booking-${ENV}/ k8s/template/namespace.yaml"
-            sh "sed -i s/{DOMAIN}/${DOMAIN}/ k8s/template/movie-booking-ingress.yaml"
             kubectl.inside("--entrypoint=''") {
                 sh 'echo $KUBECONFIG | base64 -d > /tmp/kubeconfig'
                 sh 'cat k8s/template/movie-booking-secrets.yaml'
