@@ -1,10 +1,7 @@
 node {
-         def ENV = ""
-         def DOMAIN = ""
-         if(env.GIT_BRANCH == 'main') {
-              ENV = 'prod'
-              DOMAIN = 'dev'
-         } else {
+         def ENV = "prod"
+         def DOMAIN = "dev"
+         if(env.GIT_BRANCH != 'main') {
               ENV = 'devk8s'
               DOMAIN = 'local'
          }
