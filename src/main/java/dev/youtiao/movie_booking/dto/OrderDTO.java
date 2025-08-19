@@ -1,6 +1,7 @@
 package dev.youtiao.movie_booking.dto;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class OrderDTO {
     /*
@@ -11,6 +12,12 @@ public class OrderDTO {
        pay_status varchar(32),
      */
     private Integer orderId;
+
+    private String movieName;
+
+    private String coverImageURL;
+
+    private String payStatus;
 
     private Integer seatNo;
 
@@ -25,9 +32,6 @@ public class OrderDTO {
     private BigDecimal price;
 
     private Integer hallNo;
-
-    private String payStatus;
-
 
     public Integer getOrderId() {
         return orderId;
@@ -99,5 +103,46 @@ public class OrderDTO {
 
     public void setPayStatus(String payStatus) {
         this.payStatus = payStatus;
+    }
+
+    public String getMovieName() {
+        return movieName;
+    }
+
+    public void setMovieName(String movieName) {
+        this.movieName = movieName;
+    }
+
+    public String getCoverImageURL() {
+        return coverImageURL;
+    }
+
+    public void setCoverImageURL(String coverImageURL) {
+        this.coverImageURL = coverImageURL;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == this) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderDTO other = (OrderDTO) o;
+        return Objects.equals(this.orderId, other.orderId)
+                && Objects.equals(this.movieName, other.movieName)
+                && Objects.equals(this.coverImageURL, other.coverImageURL)
+                && Objects.equals(this.payStatus, other.payStatus)
+                && Objects.equals(this.seatNo, other.seatNo)
+                && Objects.equals(this.theatreAddr, other.theatreAddr)
+                && Objects.equals(this.theatreName, other.theatreName)
+                && Objects.equals(this.playStart, other.playStart)
+                && Objects.equals(this.playEnd, other.playEnd)
+                && Objects.equals(this.price, other.price)
+                && Objects.equals(this.hallNo, other.hallNo);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("OrderDTO[%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s]",
+                orderId, movieName, coverImageURL, payStatus,seatNo,theatreAddr,
+                theatreName, playStart, playEnd, price, hallNo);
     }
 }

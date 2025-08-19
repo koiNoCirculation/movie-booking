@@ -137,3 +137,50 @@ insert into movie_booking_system_play (
     price,
     movie_id
 ) values (1, 1, "2025-08-31 13:00:00", "2025-08-31 16:00:00", 25.0, 1);
+
+insert into movie_booking_system_play (
+    play_id,
+    theatre_id,
+    start_from,
+    end_at,
+    price,
+    movie_id
+) values (2, 1, "2025-08-31 19:00:00", "2025-08-31 21:00:00", 25.0, 1);
+
+insert into movie_booking_system_play (
+    play_id,
+    theatre_id,
+    start_from,
+    end_at,
+    price,
+    movie_id
+) values (3, 1, "2025-08-31 21:00:00", "2025-08-31 23:00:00", 25.0, 1);
+
+insert into movie_booking_system_play (
+    play_id,
+    theatre_id,
+    start_from,
+    end_at,
+    price,
+    movie_id
+) values (4, 1, "2025-08-30 13:00:00", "2025-08-30 16:00:00", 25.0, 2);
+
+insert into movie_booking_system_play (
+    play_id,
+    theatre_id,
+    start_from,
+    end_at,
+    price,
+    movie_id
+) values (5, 1, "2025-08-30 19:00:00", "2025-08-30 21:00:00", 25.0, 2);
+
+insert into movie_booking_system_play (
+    play_id,
+    theatre_id,
+    start_from,
+    end_at,
+    price,
+    movie_id
+) values (6, 1, "2025-08-30 21:00:00", "2025-08-30 23:00:00", 25.0, 2);
+
+
