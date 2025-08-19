@@ -42,7 +42,7 @@
 			</properties>
 		</profile>
 		<profile>
-			<id>prod_fake</id>
+			<id>prod</id>
 			<properties>
 				<nacos.server.address>nacos-0.nacos-headless.nacos.svc.cluster.local:8848</nacos.server.address>
 				<nacos.group>GROUP_FAKEPROD</nacos.group>
