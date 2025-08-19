@@ -1,7 +1,7 @@
 node {
          def ENV = "prod"
          def DOMAIN = "dev"
-         if(env.GIT_BRANCH != 'main') {
+         if(env.BRANCH_NAME != 'main') {
               ENV = 'devk8s'
               DOMAIN = 'local'
          }
@@ -15,6 +15,7 @@ node {
         maven.pull()
         kubectl.pull()
         stage('SCM') {
+             sh "echo 'Current env.BRANCH_NAME == ${env.BRANCH_NAME}'"
              checkout scm
         }
         stage('Test & Sonar') {
