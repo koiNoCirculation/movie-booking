@@ -1,5 +1,9 @@
 package dev.youtiao.movie_booking.dto;
 
+import dev.youtiao.movie_booking.dao.entities.MovieBookingSystemMovies;
+
+import java.util.Objects;
+
 public class MovieDTO {
     private Integer movieId;
     private String name;
@@ -74,5 +78,25 @@ public class MovieDTO {
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MovieDTO that = (MovieDTO) o;
+        return Objects.equals(movieId, that.movieId) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(length, that.length) &&
+                Objects.equals(director, that.director) &&
+                Objects.equals(coverImageURL, that.coverImageURL) &&
+                Objects.equals(cast, that.cast) &&
+                Objects.equals(genre, that.genre) &&
+                Objects.equals(introduction, that.introduction);
+    }
+    @Override
+    public String toString() {
+        return String.format("[%s, %s, %s, %s, %s, %s, %s, %s]",
+                movieId, name, length, director, coverImageURL, cast, genre, introduction);
     }
 }

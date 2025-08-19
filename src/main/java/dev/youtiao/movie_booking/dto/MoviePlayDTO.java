@@ -2,6 +2,7 @@ package dev.youtiao.movie_booking.dto;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 
 public class MoviePlayDTO {
     private int playId;
@@ -104,5 +105,23 @@ public class MoviePlayDTO {
 
     public void setHallNo(Integer hallNo) {
         this.hallNo = hallNo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MoviePlayDTO that = (MoviePlayDTO) o;
+        return Objects.equals(theatreAddr, that.theatreAddr) &&
+                Objects.equals(theatreName, that.theatreName) &&
+                Objects.equals(playId, that.playId) &&
+                Objects.equals(theatreLon, that.theatreLon) &&
+                Objects.equals(theatreLat, that.theatreLat) &&
+                Objects.equals(playStart, that.playStart) &&
+                Objects.equals(playEnd, that.playEnd) &&
+                Objects.equals(price, that.price) &&
+                Objects.equals(hallNo, that.hallNo) &&
+                Objects.equals(seatsOccupied, that.seatsOccupied) &&
+                Objects.equals(seatsTotal, that.seatsTotal);
     }
 }

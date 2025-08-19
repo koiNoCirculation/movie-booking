@@ -55,6 +55,7 @@ public class MovieService {
             List<MovieBookingSystemMovies> movieBookingSystemMovies = mapper.selectByExampleWithBLOBs(new MovieBookingSystemMoviesExample());
             List<MovieDTO> movieDTOS = movieBookingSystemMovies.stream().map(e -> {
                 MovieDTO movieDTO = new MovieDTO();
+                movieDTO.setName(e.getName());
                 movieDTO.setMovieId(e.getMovieId());
                 movieDTO.setDirector(e.getDirector());
                 movieDTO.setIntroduction(e.getIntroduction());

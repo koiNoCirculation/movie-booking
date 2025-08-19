@@ -61,6 +61,7 @@ public class WebMvcSecurityConfig {
                                                 "/api/placeOrder",
                                                 "/api/performPayment",
                                                 "/api/getMyOrders",
+                                                "/api/payOrder",
                                                 "/api/cancelOrder",
                                                 "/api/checkIn").hasAnyRole("USER","ADMIN")
                                         .requestMatchers("/api/manage/addMovie",
@@ -71,7 +72,7 @@ public class WebMvcSecurityConfig {
                                                 "/api/manage/UpdateThertre",
                                                 "/api/manage/addMoviePlay",
                                                 "/api/manage/updateMoviePlay").hasRole("ADMIN")
-                                        .requestMatchers("/home","/","/assets/**","/login", "/api/movieList", "/api/getSeats", "/api/movieRating","/api/getMoviePlays","/api/register").permitAll()
+                                        .requestMatchers("/alive","/logout","/login", "/api/movieList", "/api/getSeats", "/api/movieRating","/api/getMoviePlays","/api/register").permitAll()
                                         .anyRequest().anonymous()
         ).logout(LogoutConfigurer::permitAll)
                 .addFilter(new JWTAuthorizationFilter(authenticationManager,jwtUtils))

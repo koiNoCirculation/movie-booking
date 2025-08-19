@@ -44,13 +44,20 @@ public class OrderController {
         return builder.build();
     }
 
-    @GetMapping("/api/myOrders")
+    @GetMapping("/api/getMyOrders")
     public Response getMyOrders(@RequestParam int page, @RequestParam int size) {
-        return null;
+        logger.info("User id {} is retriving his orders", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        Response.ResponseBuilder builder = new Response.ResponseBuilder();
+        builder.setSucceed(true);
+        builder.setData(orderService.getMyOrders(page, size));
+        return builder.build();
     }
 
-    @GetMapping("/api/cancelOrder")
+    @PostMapping("/api/cancelOrder")
     public Response cancelOrder(@RequestParam int orderId) {
-        return null;
+        logger.info("User id {} is cancelling order #{}", SecurityContextHolder.getContext().getAuthentication().getPrincipal(), orderId);
+        Response.ResponseBuilder builder = new Response.ResponseBuilder();
+        builder.setSucceed(orderService.cancelOrder(orderId));
+        return builder.build();
     }
 }

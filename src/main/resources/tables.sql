@@ -58,8 +58,13 @@ create table movie_booking_order (
     play_id integer,
     seat_id integer,
     pay_status varchar(32),
+    create_time timestamp default current_timestamp(),
+    update_time timestamp default current_timestamp(),
     primary key (order_id)
 );
+
+alter table movie_booking_order add column create_time timestamp default current_timestamp();
+alter table movie_booking_order add column update_time timestamp default current_timestamp();
 
 
 
