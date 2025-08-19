@@ -1,7 +1,6 @@
 package dev.youtiao.movie_booking.dto;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 public class MoviePlayDTO {

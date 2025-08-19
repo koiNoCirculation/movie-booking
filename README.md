@@ -8,12 +8,12 @@ It's a online booking system for movie theatres, users can get available movies 
 Although the interviewer asked how to deal with large amount of request, supposed it's a large system connected to multiple
 theatres and serving for tens of thousand of people. Because it's for exercise only I don't apply micro services to it to save my time.
 
-#### Tech stacks integrated
+#### Tech stacks
 Spring Boot for web service and dependency injection.  
 Mybatis ORM for accessing MySQL database.  
 JSON web token technique and Spring Security for authentication.  
 JUnit for unit testing and Mockito for mocking services.   
-Docker for building images to publish.  
+Docker for building images to publish.
 
 #### Access:
 [Click to Go](https://moviebookingprod.youtiao.dev)  
@@ -38,7 +38,7 @@ security.jwt.pubkey=<base64 encoded X509 RSA Public key>
 ```
 
 #### Deployment:
-The application is deployed on a kubernetes cluster on my AIO server.  
+The application is deployed on a kubernetes cluster on my all-in-one server.  
 It creates:   
 Namespace 'movie-booking-{ENV}', while ENV can be 'devk8s' and 'prod'. All other things are created under this.  
 Secret for pulling images from harbor.  

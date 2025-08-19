@@ -1,7 +1,5 @@
 package dev.youtiao.movie_booking.dto;
 
-import dev.youtiao.movie_booking.dao.entities.MovieBookingSystemMovies;
-
 import java.util.Objects;
 
 public class MovieDTO {
