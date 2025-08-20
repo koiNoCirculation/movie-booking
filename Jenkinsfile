@@ -45,20 +45,10 @@ node {
 
         stage('deploy to k8s') {
             withCredentials([string(credentialsId: 'k8s', variable: 'KUBECONFIG'),
-             string(credentialsId:'harbor', variable: 'DOCKERPULLSECRET'),
-             string(credentialsId:'https-cert', variable: 'HTTPSCERT'),
-             string(credentialsId:'https-privkey', variable: 'HTTPSPRIV'),
+             string(credentialsId:'harbor', variable: 'DOCKERPULLSECRET')
              ]) {
-            if(ENV == 'prod') {
-                sh "sed -i 's#{CERT}#${HTTPSCERT}#' k8s/template/movie-booking-secrets-tls.yaml"
-                sh "sed -i 's#{KEY}#${HTTPSPRIV}#' k8s/template/movie-booking-secrets-tls.yaml"
-                sh 'cat k8s/template/movie-booking-secrets-tls.yaml'
-                sh "sed -i 's/{ENV}/${ENV}/' k8s/template/movie-booking-ingress-tls.yaml"
-                sh "sed -i s/{DOMAIN}/${DOMAIN}/ k8s/template/movie-booking-ingress-tls.yaml"
-            } else {
-                sh "sed -i s/{ENV}/${ENV}/ k8s/template/movie-booking-ingress.yaml"
-                sh "sed -i s/{DOMAIN}/${DOMAIN}/ k8s/template/movie-booking-ingress.yaml"
-            }
+            sh "sed -i s/{ENV}/${ENV}/ k8s/template/movie-booking-ingress.yaml"
+            sh "sed -i s/{DOMAIN}/${DOMAIN}/ k8s/template/movie-booking-ingress.yaml"
             sh "sed -i s/{TAG}/${ENV}-${env.BUILD_TAG}/ k8s/template/movie-booking-deployment.yaml"
 
             sh 'sed -i "s#{DOCKERCONFIG}#${DOCKERPULLSECRET}#" k8s/template/movie-booking-secrets.yaml'
@@ -69,12 +59,7 @@ node {
                 sh 'kubectl --kubeconfig /tmp/kubeconfig apply -f k8s/template/namespace.yaml'
                 sh "kubectl --kubeconfig /tmp/kubeconfig apply -f k8s/template/movie-booking-deployment.yaml -n movie-booking-${ENV}"
                 sh "kubectl --kubeconfig /tmp/kubeconfig apply -f k8s/template/movie-booking-secrets.yaml -n movie-booking-${ENV}"
-                if(ENV == 'prod') {
-                     sh "kubectl --kubeconfig /tmp/kubeconfig apply -f k8s/template/movie-booking-secrets-tls.yaml -n movie-booking-${ENV}"
-                     sh "kubectl --kubeconfig /tmp/kubeconfig apply -f k8s/template/movie-booking-ingress-tls.yaml -n movie-booking-${ENV}"
-                } else {
-                     sh "kubectl --kubeconfig /tmp/kubeconfig apply -f k8s/template/movie-booking-ingress.yaml -n movie-booking-${ENV}"
-                }
+                sh "kubectl --kubeconfig /tmp/kubeconfig apply -f k8s/template/movie-booking-ingress.yaml -n movie-booking-${ENV}"
             }
             }
         }
